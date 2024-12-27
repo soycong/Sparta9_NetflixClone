@@ -37,26 +37,33 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        bind()
+        configureUI()
     }
     
     //view와 viewmodel 연결
     private func bind() {
-        viewModel.popularMovieSubject.subscribe(onNext: { [weak self] movies in
+        viewModel.popularMovieSubject
+            .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+            .subscribe(onNext: { [weak self] movies in
             self?.popularMovies = movies
             self?.collectionView.reloadData()
         }, onError: { error in
             print("error 발생! \(error)")
         }).disposed(by: disposeBag)
         
-        viewModel.topRatedMovieSubject.subscribe(onNext: { [weak self] movies in
+        viewModel.topRatedMovieSubject
+            .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+            .subscribe(onNext: { [weak self] movies in
             self?.topRatedMovies = movies
             self?.collectionView.reloadData()
         }, onError: { error in
             print("error 발생! \(error)")
         }).disposed(by: disposeBag)
         
-        viewModel.upcomingMovieSubject.subscribe(onNext: { [weak self] movies in
+        viewModel.upcomingMovieSubject
+            .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+            .subscribe(onNext: { [weak self] movies in
             self?.upcomingMovies = movies
             self?.collectionView.reloadData()
         }, onError: { error in
@@ -85,7 +92,20 @@ class MainViewController: UIViewController {
         section.interGroupSpacing = 10
         section.contentInsets = .init(top: 10, leading: 10, bottom: 20, trailing: 10)
         
-        return UICollectionViewLayout()
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(44)
+        )
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        section.boundarySupplementaryItems = [header]
+        
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
     private func configureUI() {
@@ -150,7 +170,7 @@ extension MainViewController: UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewforSupplementaryElementOfKind kind: String, indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
         
         guard let headerview = collectionView.dequeueReusableSupplementaryView(
@@ -164,6 +184,10 @@ extension MainViewController: UICollectionViewDataSource {
         headerview.configure(with: sectionType.title)
         
         return headerview
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Section.allCases.count
     }
 }
 
