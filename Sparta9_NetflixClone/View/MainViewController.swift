@@ -5,7 +5,9 @@
 //  Created by seohuibaek on 12/26/24.
 //
 
+import AVKit
 import UIKit
+//import AVFoundation
 import SnapKit
 import RxSwift
 
@@ -126,6 +128,20 @@ class MainViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
+    
+    private func playViedoUrl() {
+        // 임의의 url
+        let url = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4")!
+        
+        let player = AVPlayer(url: url)
+        
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        
+        present(playerViewController, animated: true) {
+            player.play()
+        }
+    }
 }
 
 enum Section: Int, CaseIterable {
@@ -192,6 +208,38 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 extension MainViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch Section(rawValue: indexPath.section) {
+        case .popularMovies:
+            viewModel.fetchTrailerKey(movie: popularMovies[indexPath.row])
+                .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+                .subscribe(onSuccess: { [weak self] key in
+                    self?.playViedoUrl()
+                }, onFailure: { error in
+                print("error 발생! \(error)")
+            }).disposed(by: disposeBag)
+            
+        case .topRatedMovies:
+            viewModel.fetchTrailerKey(movie: topRatedMovies[indexPath.row])
+                .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+                .subscribe(onSuccess: { [weak self] key in
+                    self?.playViedoUrl()
+                }, onFailure: { error in
+                print("error 발생! \(error)")
+            }).disposed(by: disposeBag)
+            
+        case .upcomingMovies:
+            viewModel.fetchTrailerKey(movie: upcomingMovies[indexPath.row])
+                .observe(on: MainScheduler.instance) //MainThread에서 동작해라!
+                .subscribe(onSuccess: { [weak self] key in
+                    self?.playViedoUrl()
+                }, onFailure: { error in
+                print("error 발생! \(error)")
+            }).disposed(by: disposeBag)
+            
+        default :
+            return
+        }
+    }
 }
 
