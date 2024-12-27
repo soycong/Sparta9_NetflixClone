@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		B323A7332D1D71F200C0FB70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B323A7322D1D71F200C0FB70 /* SnapKit */; };
+		B359F5762D1E6A7900CC0835 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = B359F5752D1E6A7900CC0835 /* RxBlocking */; };
+		B359F5782D1E6A7900CC0835 /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B359F5772D1E6A7900CC0835 /* RxBlocking-Dynamic */; };
+		B359F57A2D1E6A7900CC0835 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = B359F5792D1E6A7900CC0835 /* RxCocoa */; };
+		B359F57C2D1E6A7900CC0835 /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B359F57B2D1E6A7900CC0835 /* RxCocoa-Dynamic */; };
+		B359F57E2D1E6A7900CC0835 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = B359F57D2D1E6A7900CC0835 /* RxRelay */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +74,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B359F57E2D1E6A7900CC0835 /* RxRelay in Frameworks */,
+				B359F5782D1E6A7900CC0835 /* RxBlocking-Dynamic in Frameworks */,
+				B359F57C2D1E6A7900CC0835 /* RxCocoa-Dynamic in Frameworks */,
 				B323A7332D1D71F200C0FB70 /* SnapKit in Frameworks */,
+				B359F57A2D1E6A7900CC0835 /* RxCocoa in Frameworks */,
+				B359F5762D1E6A7900CC0835 /* RxBlocking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +141,11 @@
 			name = Sparta9_NetflixClone;
 			packageProductDependencies = (
 				B323A7322D1D71F200C0FB70 /* SnapKit */,
+				B359F5752D1E6A7900CC0835 /* RxBlocking */,
+				B359F5772D1E6A7900CC0835 /* RxBlocking-Dynamic */,
+				B359F5792D1E6A7900CC0835 /* RxCocoa */,
+				B359F57B2D1E6A7900CC0835 /* RxCocoa-Dynamic */,
+				B359F57D2D1E6A7900CC0835 /* RxRelay */,
 			);
 			productName = Sparta9_NetflixClone;
 			productReference = B323A6EA2D1D114E00C0FB70 /* Sparta9_NetflixClone.app */;
@@ -216,6 +231,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B323A7312D1D71F200C0FB70 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B323A6EB2D1D114E00C0FB70 /* Products */;
@@ -580,6 +596,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -587,6 +611,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B323A7312D1D71F200C0FB70 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		B359F5752D1E6A7900CC0835 /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		B359F5772D1E6A7900CC0835 /* RxBlocking-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxBlocking-Dynamic";
+		};
+		B359F5792D1E6A7900CC0835 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		B359F57B2D1E6A7900CC0835 /* RxCocoa-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxCocoa-Dynamic";
+		};
+		B359F57D2D1E6A7900CC0835 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B359F5742D1E6A7900CC0835 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
