@@ -7,9 +7,12 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class MainViewController: UIViewController {
     
+    private let viewModel = MainViewModel()
+    private let disposeBag = DisposeBag()
     private var popularMovies = [Movie]()
     private var topRatedMovies = [Movie]()
     private var upcomingMovies = [Movie]()
@@ -35,6 +38,30 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+    }
+    
+    //view와 viewmodel 연결
+    private func bind() {
+        viewModel.popularMovieSubject.subscribe(onNext: { [weak self] movies in
+            self?.popularMovies = movies
+            self?.collectionView.reloadData()
+        }, onError: { error in
+            print("error 발생! \(error)")
+        }).disposed(by: disposeBag)
+        
+        viewModel.topRatedMovieSubject.subscribe(onNext: { [weak self] movies in
+            self?.topRatedMovies = movies
+            self?.collectionView.reloadData()
+        }, onError: { error in
+            print("error 발생! \(error)")
+        }).disposed(by: disposeBag)
+        
+        viewModel.upcomingMovieSubject.subscribe(onNext: { [weak self] movies in
+            self?.upcomingMovies = movies
+            self?.collectionView.reloadData()
+        }, onError: { error in
+            print("error 발생! \(error)")
+        }).disposed(by: disposeBag)
     }
 
     private func createLayout() -> UICollectionViewLayout {
