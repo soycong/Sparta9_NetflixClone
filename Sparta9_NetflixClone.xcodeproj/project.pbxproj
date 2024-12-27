@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B323A7332D1D71F200C0FB70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B323A7322D1D71F200C0FB70 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B323A7012D1D115000C0FB70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B323A7332D1D71F200C0FB70 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Sparta9_NetflixClone;
 			packageProductDependencies = (
+				B323A7322D1D71F200C0FB70 /* SnapKit */,
 			);
 			productName = Sparta9_NetflixClone;
 			productReference = B323A6EA2D1D114E00C0FB70 /* Sparta9_NetflixClone.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = B323A6E12D1D114E00C0FB70;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B323A7312D1D71F200C0FB70 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B323A6EB2D1D114E00C0FB70 /* Products */;
 			projectDirPath = "";
@@ -561,6 +570,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B323A7312D1D71F200C0FB70 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B323A7322D1D71F200C0FB70 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B323A7312D1D71F200C0FB70 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B323A6E22D1D114E00C0FB70 /* Project object */;
 }

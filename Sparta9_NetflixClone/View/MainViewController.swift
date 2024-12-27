@@ -6,14 +6,141 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainViewController: UIViewController {
+    
+    private var popularMovies = [Movie]()
+    private var topRatedMovies = [Movie]()
+    private var upcomingMovies = [Movie]()
+    
+    private let label: UILabel = {
+        let label = UILabel()
+        label.text = "NETFLIX"
+        label.textColor = UIColor(red: 229/255, green: 9/255, blue: 20/255, alpha: 1.0)
+        label.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
+        return label
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.id)
+        collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.id)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .black
+        return collectionView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
+    private func createLayout() -> UICollectionViewLayout {
+        //각 아이템이 각 그룹 내에서 전체 너비와 높이를 차지
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.25),
+            heightDimension: .fractionalWidth(0.4)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 10
+        section.contentInsets = .init(top: 10, leading: 10, bottom: 20, trailing: 10)
+        
+        return UICollectionViewLayout()
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .black
+        [
+            label,
+            collectionView
+        ].forEach { view.addSubview($0) }
+        
+        label.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(10)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(label.snp.bottom).offset(20)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide.snp.horizontalEdges)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+}
 
+enum Section: Int, CaseIterable {
+    case popularMovies
+    case topRatedMovies
+    case upcomingMovies
+    
+    var title: String {
+        switch self {
+        case .popularMovies: return "이 시간 가장 핫한 영화"
+        case .topRatedMovies: return "가장 평점이 높은 영화"
+        case .upcomingMovies: return "곧 개봉되는 영화"
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch Section(rawValue: section) {
+        case .popularMovies: return popularMovies.count
+        case .topRatedMovies: return topRatedMovies.count
+        case .upcomingMovies: return upcomingMovies.count
+        default :
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCell.id, for: indexPath) as? PosterCell  else { return UICollectionViewCell() }
+        
+        switch Section(rawValue: indexPath.section) {
+        case .popularMovies:
+            cell.configure(with: popularMovies[indexPath.row])
+        case .topRatedMovies:
+            cell.configure(with: topRatedMovies[indexPath.row])
+        case .upcomingMovies:
+            cell.configure(with: upcomingMovies[indexPath.row])
+        default :
+            return UICollectionViewCell()
+        }
+
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewforSupplementaryElementOfKind kind: String, indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+        
+        guard let headerview = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: SectionHeaderView.id,
+            for: indexPath
+        ) as? SectionHeaderView else { return UICollectionReusableView() }
+        
+        let sectionType = Section.allCases[indexPath.section]
+        
+        headerview.configure(with: sectionType.title)
+        
+        return headerview
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    
 }
 
