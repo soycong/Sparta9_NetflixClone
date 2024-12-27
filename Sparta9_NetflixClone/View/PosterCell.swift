@@ -29,6 +29,12 @@ class PosterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // cell 버벅임 현상 해결
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
     func configure(with movie:Movie) {
         guard let posterPath = movie.posterPath else { return }
         let urlString = "https://image.tmdb.org/t/p/w500/\(posterPath)"
